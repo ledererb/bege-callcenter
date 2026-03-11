@@ -144,42 +144,16 @@ async def entrypoint(ctx: JobContext):
 
     await ctx.connect()
 
-    # ── ElevenLabs Scribe v2 keyterms (migrated from Google phrase boosting) ──
-    _keyterms = [
-        # Brand names
-        "ThinkAI", "Tink-éjáj", "Tinkéjáj", "Tinkai", "Finkéjáj",
-        "EAISY", "Ízí", "Hungarorisk", "ListaMester", "Könyvelés AI",
-        # Business/tech terms
-        "audit", "AI", "automatizáció", "ügyfélszolgálat",
-        "ERP", "CRM", "konzultáció", "integráció", "chatbot",
-        # Email vocabulary
-        "kukac", "gmail", "email", "thinkai.hu", "hello@thinkai.hu",
-        # Surnames (top 30)
-        "Nagy", "Kovács", "Tóth", "Szabó", "Horváth", "Varga", "Kiss",
-        "Molnár", "Németh", "Farkas", "Balogh", "Papp", "Takács",
-        "Juhász", "Lakatos", "Mészáros", "Oláh", "Simon", "Rácz",
-        "Fekete", "Szilágyi", "Török", "Fehér", "Balázs", "Gál", "Kis",
-        "Szűcs", "Kocsis", "Orsós", "Pintér",
-        # Male first names (top 25)
-        "László", "István", "József", "János", "Zoltán", "Sándor",
-        "Ferenc", "Gábor", "Attila", "Péter", "Tamás", "Zsolt",
-        "Tibor", "András", "Csaba", "Imre", "Gergő", "György",
-        "Miklós", "Róbert", "Szabolcs", "Dániel", "Ádám", "Béla", "Márk",
-        # Female first names (top 25)
-        "Mária", "Erzsébet", "Katalin", "Ilona", "Éva", "Anna",
-        "Zsuzsanna", "Margit", "Judit", "Ágnes", "Andrea", "Erika",
-        "Krisztina", "Mónika", "Edit", "Gabriella", "Szilvia", "Anikó",
-        "Nikolett", "Viktória", "Réka", "Petra", "Dóra", "Nóra", "Boglárka",
-        # Special
-        "Léder", "Lederer",
-    ]
+    # NOTE: ElevenLabs keyterms only work in batch mode (not realtime streaming).
+    # The scribe_v2_realtime model ignores keyterms in the WebSocket streaming path.
+    # Hungarian name/brand recognition relies on Scribe v2's native 3.1% WER accuracy.
+    # If you need keyterms, switch model_id to "scribe_v2" (batch, higher latency).
 
     session = AgentSession(
         stt=elevenlabs.STT(
-            model="scribe_v2_realtime",
-            language="hu",
-            api_key=os.getenv("ELEVENLABS_API_KEY"),
-            keyterms=_keyterms,
+            model_id="scribe_v2_realtime",
+            language_code="hu",
+            api_key=os.getenv("ELEVEN_API_KEY"),
         ),
         llm=google.LLM(
             model="gemini-2.5-flash",
