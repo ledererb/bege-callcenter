@@ -1,7 +1,6 @@
 [build]
-builder = "NIXPACKS"
-buildCommand = "pip install -r thinkai-voice-agent/requirements.txt"
-nixpacksConfigPath = "nixpacks.toml"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "cd thinkai-voice-agent && bash start.sh start"
