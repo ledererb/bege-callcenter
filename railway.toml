@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "pip install -r thinkai-voice-agent/requirements.txt"
+buildCommand = "pip3 install -r thinkai-voice-agent/requirements.txt"
 
 [deploy]
 startCommand = "cd thinkai-voice-agent && bash start.sh start"
