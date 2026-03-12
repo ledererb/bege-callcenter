@@ -632,11 +632,32 @@
             if (connected) { disconnect(); } else { await connect(); }
         };
 
+        // Helper: fetch with retry (handles Railway cold starts)
+        async function fetchWithRetry(url, retries = 3, delayMs = 2000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const resp = await fetch(url);
+                    if (resp.ok) return resp;
+                    // Server returned error, retry
+                } catch (e) {
+                    // Network error (container still waking), retry
+                }
+                if (i < retries - 1) {
+                    await new Promise(r => setTimeout(r, delayMs));
+                }
+            }
+            throw new Error('A szerver nem elérhető. Próbáld újra!');
+        }
+
         async function connect() {
-            setState('connecting', 'Csatlakozás...');
+            setState('connecting', 'Felébresztem a szervert...');
             try {
-                const resp = await fetch('/api/token');
-                if (!resp.ok) throw new Error('Token hiba');
+                // 1. Warm-up ping — wakes Railway container from sleep
+                try { await fetch('/api/health'); } catch (e) { /* ignore */ }
+
+                // 2. Get token with retry (container may need a few seconds to fully start)
+                setState('connecting', 'Csatlakozás...');
+                const resp = await fetchWithRetry('/api/token', 3, 2000);
                 const { token, url } = await resp.json();
 
                 room = new Room({
