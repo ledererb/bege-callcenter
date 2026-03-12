@@ -40,7 +40,7 @@ from tools import ALL_TOOLS
 def _setup_google_credentials():
     """Write Google credentials from env var if present (for Railway/cloud)."""
     creds_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
-    creds_path = THIS_DIR / "google-credentials.json"
+    creds_path = Path("/tmp/google-credentials.json")
     if creds_json and not creds_path.exists():
         creds_path.write_text(creds_json)
     if creds_path.exists():
