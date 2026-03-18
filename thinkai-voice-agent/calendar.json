@@ -35,5 +35,14 @@
     "duration_minutes": 360,
     "attendee": "gibbskarton@gmail.com",
     "created_at": "2026-03-18T19:48:19.232465"
+  },
+  {
+    "id": 2,
+    "title": "Teljes karosszéria fóliázás - Kulcsár Edina",
+    "start": "2026-03-19T16:00:00",
+    "end": "2026-03-19T16:30:00",
+    "duration_minutes": 30,
+    "attendee": null,
+    "created_at": "2026-03-18T20:06:14.479271"
   }
 ]
