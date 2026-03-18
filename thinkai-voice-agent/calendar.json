@@ -1,30 +1,39 @@
 [
-    {
-        "title": "AI Audit konzultáció — Kovács Kft.",
-        "start": "2026-03-11T10:00:00",
-        "duration_minutes": 45,
-        "attendee": "Kovács Péter",
-        "attendee_email": "kovacs.peter@example.com"
-    },
-    {
-        "title": "EAISY demo bemutató — Szabó és Társa",
-        "start": "2026-03-12T14:00:00",
-        "duration_minutes": 60,
-        "attendee": "Szabó Gergő",
-        "attendee_email": "szabo.gergo@example.com"
-    },
-    {
-        "title": "Pályázati tájékoztató — DIMOP 2025",
-        "start": "2026-03-13T09:30:00",
-        "duration_minutes": 30,
-        "attendee": "Tóth Anna",
-        "attendee_email": "toth.anna@example.com"
-    },
-    {
-        "title": "Ügyfélszolgálat automatizáció workshop",
-        "start": "2026-03-14T11:00:00",
-        "duration_minutes": 90,
-        "attendee": "Nagy László",
-        "attendee_email": "nagy.laszlo@example.com"
-    }
+  {
+    "title": "AI Audit konzultáció — Kovács Kft.",
+    "start": "2026-03-11T10:00:00",
+    "duration_minutes": 45,
+    "attendee": "Kovács Péter",
+    "attendee_email": "kovacs.peter@example.com"
+  },
+  {
+    "title": "EAISY demo bemutató — Szabó és Társa",
+    "start": "2026-03-12T14:00:00",
+    "duration_minutes": 60,
+    "attendee": "Szabó Gergő",
+    "attendee_email": "szabo.gergo@example.com"
+  },
+  {
+    "title": "Pályázati tájékoztató — DIMOP 2025",
+    "start": "2026-03-13T09:30:00",
+    "duration_minutes": 30,
+    "attendee": "Tóth Anna",
+    "attendee_email": "toth.anna@example.com"
+  },
+  {
+    "title": "Ügyfélszolgálat automatizáció workshop",
+    "start": "2026-03-14T11:00:00",
+    "duration_minutes": 90,
+    "attendee": "Nagy László",
+    "attendee_email": "nagy.laszlo@example.com"
+  },
+  {
+    "id": 1,
+    "title": "Suzuki Vitara - Teljes körű fóliázás",
+    "start": "2026-03-19T10:00:00",
+    "end": "2026-03-19T16:00:00",
+    "duration_minutes": 360,
+    "attendee": "gibbskarton@gmail.com",
+    "created_at": "2026-03-18T19:48:19.232465"
+  }
 ]

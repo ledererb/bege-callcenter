@@ -446,7 +446,7 @@ async def create_task(
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# 6. KNOWLEDGE LOOKUP (structured ThinkAI info)
+# 6. KNOWLEDGE LOOKUP (Bégé Design info)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # ── Knowledge base path ──────────────────────────────────────────────────────
@@ -489,12 +489,12 @@ _TOPIC_ALIASES = {
 }
 
 
-@function_tool(description="ThinkAI belső tudásbázis lekérdezése. Használd, ha a felhasználó bármilyen részletes információt kér a cégről, árazásról, csapatról, szolgáltatásokról, pályázatokról, sikertörténetekről vagy bármi másról. Bármilyen témát megadhatsz szabadon, a rendszer megtalálja a megfelelő információt.")
+@function_tool(description="Bégé Design belső tudásbázis lekérdezése. Használd, ha a felhasználó bármilyen részletes információt kér a cégről, árazásról, szükséges anyagokról, szolgáltatásokról, referenciákról vagy bármi másról. Bármilyen témát megadhatsz szabadon, a rendszer megtalálja a megfelelő információt.")
 async def lookup_info(
     ctx: RunContext,
     topic: Annotated[str, "A keresett téma szabadon megadva, pl: 'csapat', 'árazás', 'pályázat', 'garancia', 'ügyfélszolgálat', 'sikertörténetek'"],
 ) -> str:
-    """ThinkAI tudásbázis lekérdezése."""
+    """Bégé Design tudásbázis lekérdezése."""
     kb = _load_knowledge()
     topic_lower = topic.lower().strip()
     logger.info(f"Knowledge lookup: {topic_lower}")
@@ -534,7 +534,7 @@ async def lookup_info(
 
     return (
         "Erről a témáról nincs részletes információm a tudásbázisban. "
-        "Részletesebb információért keresd a csapatot a hello@thinkai.hu címen!"
+        "Részletesebb információért keresd a csápatot az info@bege.hu címen!"
     )
 
 

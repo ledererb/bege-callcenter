@@ -27,8 +27,8 @@ app = FastAPI(title="ThinkAI Voice Agent")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://thinkai.hu",
-        "https://www.thinkai.hu",
+        "https://bege.hu",
+        "https://www.bege.hu",
         "http://localhost:3000",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
@@ -58,7 +58,7 @@ async def get_token():
     if not api_key or not api_secret:
         return JSONResponse({"error": "LiveKit credentials not configured"}, status_code=500)
 
-    room_name = f"thinkai-{uuid.uuid4().hex[:8]}"
+    room_name = f"bege-{uuid.uuid4().hex[:8]}"
     participant_name = f"user-{uuid.uuid4().hex[:6]}"
 
     token = (
@@ -106,7 +106,7 @@ async def get_emails():
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "agent": "thinkai-voice-agent"}
+    return {"status": "ok", "agent": "bege-voice-agent"}
 
 
 if __name__ == "__main__":
