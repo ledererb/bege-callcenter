@@ -1,7 +1,7 @@
 """
-ThinkAI Voice Agent — LiveKit Agents Server
+Bégé Design Voice Agent — LiveKit Agents Server
 Real-time voice assistant powered by LiveKit + ElevenLabs Scribe v2 STT + Gemini 2.5 Flash + Cartesia TTS
-Hungarian-only with ThinkAI brand pronunciation handling
+Hungarian-only with Bégé Design brand pronunciation handling
 """
 
 import asyncio
@@ -67,25 +67,21 @@ def _get_system_prompt() -> str:
 # Cartesia pronounces foreign/brand words correctly in Hungarian.
 _TTS_REPLACEMENTS = {
     # Brand names
-    "ThinkAI": "Tink-éj-áj",
-    "thinkAI": "tink-éj-áj",
-    "Thinkai": "Tink-éj-áj",
-    "thinkai": "tink-éj-áj",
-    "EAISY": "Ízí",
-    "Eaisy": "Ízí",
-    "eaisy": "ízí",
-    # Domains & emails
-    "thinkai.hu": "tink-éj-áj pont há ú",
-    "hello@thinkai.hu": "helló kukac tink-éj-áj pont há ú",
-    # Tech terms the Hungarian TTS mangles
-    "AI": "éj-áj",
-    "CRM": "szé-er-em",
-    "ERP": "é-er-pé",
+    "Bégé Design": "Bégé Dizájn",
+    "bege.hu": "bégé pont há ú",
+    "info@bege.hu": "infó kukac bégé pont há ú",
+    # Fólia / szakmai rövidítések
+    "PPF": "pé-pé-ef",
+    "3M": "három-em",
+    "UV": "ú-vé",
+    "PVC": "pé-vé-cé",
     # Email providers
     "Gmail": "dzsé-mél",
     "gmail": "dzsé-mél",
     "GMAIL": "dzsé-mél",
     "gmail.com": "dzsé-mél pont kom",
+    # Egyéb tech rövidítések
+    "XI.": "tizenegyedik",
 }
 
 
@@ -129,9 +125,9 @@ class ThinkAIAgent(Agent):
     async def on_enter(self):
         """Greet the user when they connect."""
         self.session.say(
-            "Szia! A Tink-éj-áj virtuális asszisztense vagyok. "
-            "Kérdezz a szolgáltatásainkról, foglalj időpontot, "
-            "vagy akár emailt is küldhetek helyetted. Miben segíthetek?"
+            "Szia! A Bégé Dizájn virtuális asszisztense vagyok. "
+            "Kérdezhetsz fóliázási szolgáltatásainkról, árakról, "
+            "vagy segítek időpontot egyeztetni. Miben segíthetek?"
         )
 
     async def stt_node(self, audio, model_settings):

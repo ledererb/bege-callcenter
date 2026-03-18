@@ -127,7 +127,7 @@ async def send_followup_email(
     recipient_name: Annotated[str, "A címzett neve"],
     recipient_email: Annotated[str, "A címzett email címe"],
     message: Annotated[str, "Az email szövegtörzse (rövid, barátságos, szakmai)"],
-    subject: Annotated[str, "Az email tárgya"] = "ThinkAI — Köszönjük érdeklődését!",
+    subject: Annotated[str, "Az email tárgya"] = "Bégé Design — Köszönjük érdeklődését!",
 ) -> str:
     """Follow-up email küldése egy érdeklődőnek."""
     raw_key = os.getenv("BREVO_API_KEY", "")
@@ -154,7 +154,7 @@ async def send_followup_email(
                 "https://api.brevo.com/v3/smtp/email",
                 headers={"api-key": api_key, "Content-Type": "application/json"},
                 json={
-                    "sender": {"name": "ThinkAI", "email": "hello@thinkai.hu"},
+                    "sender": {"name": "Bégé Design", "email": "info@bege.hu"},
                     "to": [{"email": recipient_email, "name": recipient_name}],
                     "subject": subject,
                     "htmlContent": f"""
@@ -164,8 +164,8 @@ async def send_followup_email(
                         <hr style="border: 1px solid #eee; margin: 20px 0;">
                         <p style="color: #666; font-size: 14px;">
                             Üdvözlettel,<br>
-                            <strong>ThinkAI csapat</strong><br>
-                            <a href="https://thinkai.hu">thinkai.hu</a> | hello@thinkai.hu
+                            <strong>Bégé Design csapat</strong><br>
+                            <a href="https://bege.hu">bege.hu</a> | info@bege.hu | +36 70 258 0102
                         </p>
                     </div>
                     """,
