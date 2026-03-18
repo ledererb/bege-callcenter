@@ -644,7 +644,7 @@ async def delete_meeting(
 # 9. SEND QUOTE REQUEST TO N8N WEBHOOK
 # ═══════════════════════════════════════════════════════════════════════════════
 
-N8N_WEBHOOK_URL = "https://n8n.thinkaikontir.hu/webhook/voiceagent"
+N8N_WEBHOOK_URL = "https://n8n.thinkaikontir.hu/webhook-test/voiceagent"
 KNOWLEDGE_BASE_FILE = THIS_DIR / "bege_design_knowledge_base.md"
 
 
