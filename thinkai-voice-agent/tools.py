@@ -640,9 +640,71 @@ async def delete_meeting(
     return f"Esemény törölve: {event_title}."
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# 9. SEND QUOTE REQUEST TO N8N WEBHOOK
+# ═══════════════════════════════════════════════════════════════════════════════
+
+N8N_WEBHOOK_URL = "https://n8n.thinkaikontir.hu/webhook/voiceagent"
+KNOWLEDGE_BASE_FILE = THIS_DIR / "bege_design_knowledge_base.md"
+
+
+def _load_knowledge_base_text() -> str:
+    """Load the full knowledge base markdown text for the webhook payload."""
+    if KNOWLEDGE_BASE_FILE.exists():
+        try:
+            return KNOWLEDGE_BASE_FILE.read_text(encoding="utf-8")
+        except Exception:
+            return ""
+    return ""
+
+
+@function_tool(description="Ajánlatkérés elküldése a CRM rendszerbe. Használd, ha az ügyfél megadta a nevét, email címét, és elmondta mire van szüksége (jármű típusa, kért szolgáltatás). Foglald össze a megbeszélt igényeket és küldd el ezt az eszközt.")
+async def send_quote_request(
+    ctx: RunContext,
+    ugyfel_nev: Annotated[str, "Az ügyfél teljes neve"],
+    ugyfel_email: Annotated[str, "Az ügyfél email címe"],
+    bejovo_uzenet: Annotated[str, "Az ügyfél igényének összefoglalása: jármű típusa, kért szolgáltatás, egyéb megjegyzések"],
+) -> str:
+    """Ajánlatkérés elküldése az n8n CRM webhookra."""
+    logger.info(f"Sending quote request to n8n: {ugyfel_nev} <{ugyfel_email}>")
+
+    tudasbazis = _load_knowledge_base_text()
+
+    payload = {
+        "forras_csatorna": "Voice Agent",
+        "ugyfel_email": ugyfel_email,
+        "ugyfel_nev": ugyfel_nev,
+        "bejovo_uzenet": bejovo_uzenet,
+        "tudasbazis": tudasbazis,
+        "ticket_id": None,
+    }
+
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                N8N_WEBHOOK_URL,
+                json=payload,
+                timeout=15,
+            )
+            resp.raise_for_status()
+            logger.info(f"Quote request sent successfully: {resp.status_code}")
+            return (
+                f"Az ajánlatkérés sikeresen elküldve! "
+                f"{ugyfel_nev} adatait és igényeit rögzítettük, "
+                f"kollégáink hamarosan felveszik a kapcsolatot az {ugyfel_email} címen."
+            )
+    except Exception as e:
+        logger.error(f"Webhook error: {e}")
+        return (
+            f"Sajnos technikai hiba miatt az automatikus rögzítés nem sikerült. "
+            f"Kérlek, vedd fel a kapcsolatot közvetlenül: info@bege.hu vagy +36 70 258 0102."
+        )
+
+
 # All tools for easy import
 ALL_TOOLS = [
     send_followup_email,
+    send_quote_request,
     check_calendar,
     book_meeting,
     modify_meeting,
