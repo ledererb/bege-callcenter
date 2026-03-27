@@ -544,6 +544,75 @@
                 opacity: 0.3;
             }
         }
+        /* ── Email input box ─────────────────────────────── */
+        .email-input-box {
+            display: none;
+            margin-top: 1rem;
+            background: rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.35);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            animation: slideIn 0.3s ease;
+            width: 100%;
+        }
+
+        .email-input-box.visible {
+            display: block;
+        }
+
+        .email-input-label {
+            font-size: 0.8rem;
+            color: #a8b2d1;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+
+        .email-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .email-input-row input[type="email"] {
+            flex: 1;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            border-radius: 8px;
+            padding: 0.55rem 0.8rem;
+            color: #fff;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-input-row input[type="email"]:focus {
+            border-color: #667eea;
+        }
+
+        .email-input-row input[type="email"]::placeholder {
+            color: rgba(255,255,255,0.25);
+        }
+
+        .email-send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.55rem 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+
+        .email-send-btn:hover { opacity: 0.85; }
+        .email-send-btn:active { transform: scale(0.97); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 
@@ -582,6 +651,15 @@
             <button class="mic-btn" id="micBtn" onclick="toggleConnection()">🎤</button>
             <div class="status" id="status">Kattints ide, és beszélj velem!</div>
             <div class="transcript" id="transcript"></div>
+
+            <!-- Email input — appears when agent asks for email -->
+            <div class="email-input-box" id="emailInputBox">
+                <div class="email-input-label">📧 Gépeld be az email-cím:</div>
+                <div class="email-input-row">
+                    <input type="email" id="emailInputField" placeholder="pelda@gmail.com" autocomplete="email">
+                    <button class="email-send-btn" id="emailSendBtn" onclick="sendTypedEmail()">Küldés ✓</button>
+                </div>
+            </div>
         </div>
 
         <!-- RIGHT: Emails -->
@@ -648,6 +726,42 @@
         const statusEl = document.getElementById('status');
         const visualizer = document.getElementById('visualizer');
         const transcript = document.getElementById('transcript');
+        const emailInputBox = document.getElementById('emailInputBox');
+        const emailInputField = document.getElementById('emailInputField');
+
+        // ── Email input logic ─────────────────────────────────
+        const EMAIL_TRIGGER = /kérlek gépeld be az email/i;
+
+        function showEmailInput() {
+            emailInputBox.classList.add('visible');
+            emailInputField.value = '';
+            setTimeout(() => emailInputField.focus(), 100);
+        }
+
+        function hideEmailInput() {
+            emailInputBox.classList.remove('visible');
+            emailInputField.value = '';
+        }
+
+        window.sendTypedEmail = async function () {
+            const email = emailInputField.value.trim();
+            if (!email) return;
+            if (!room) return;
+            // Show in transcript as user message
+            addTranscript('user', email);
+            hideEmailInput();
+            // Send to agent via data channel
+            const payload = JSON.stringify({ type: 'typed_input', text: email });
+            await room.localParticipant.publishData(
+                new TextEncoder().encode(payload),
+                { reliable: true }
+            );
+        };
+
+        // Allow Enter key in email field
+        document.getElementById('emailInputField').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') window.sendTypedEmail();
+        });
 
         // ── State management ─────────────────────────────────
         function setState(state, message) {
@@ -818,6 +932,7 @@
             statusEl.textContent = 'Kattints ide, és beszélj velem!';
             statusEl.className = 'status';
             visualizer.classList.remove('active', 'agent-speaking');
+            hideEmailInput();
             stopPolling();
         }
 
@@ -857,6 +972,10 @@
                 text = normalizeUserText(text);
             }
             if (!text) return;
+            // Detect email trigger in agent speech → show input box
+            if (role === 'agent' && EMAIL_TRIGGER.test(text)) {
+                showEmailInput();
+            }
             const div = document.createElement('div');
             div.className = role;
             div.textContent = (role === 'user' ? '🗣️ ' : '🤖 ') + text;

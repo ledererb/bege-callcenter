@@ -5,6 +5,7 @@ Hungarian-only with Bégé Design brand pronunciation handling
 """
 
 import asyncio
+import json
 import os
 import re
 import sys
@@ -248,6 +249,25 @@ async def entrypoint(ctx: JobContext):
             noise_cancellation=noise_cancellation.BVC(),
         ),
     )
+
+    # ── Typed input handler (email input from browser) ────────────────
+    @ctx.room.on("data_received")
+    def on_data_received(data_packet):
+        try:
+            msg = json.loads(data_packet.data.decode("utf-8"))
+            if msg.get("type") == "typed_input":
+                text = msg.get("text", "").strip()
+                if text:
+                    logger.info(f"Received typed input from browser: '{text}'")
+                    asyncio.ensure_future(_inject_typed_input(session, text))
+        except Exception as e:
+            logger.error(f"DataReceived parse error: {e}")
+
+    async def _inject_typed_input(sess, text: str):
+        try:
+            await sess.generate_reply(user_input=text)
+        except Exception as e:
+            logger.error(f"Inject typed input error: {e}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
