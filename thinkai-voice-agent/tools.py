@@ -1,5 +1,5 @@
 """
-ThinkAI Voice Agent — Tool Implementations (LiveKit Agents v1.4)
+Bégé Design Voice Agent — Tool Implementations (LiveKit Agents v1.4)
 Function tools using @function_tool decorator for the voice assistant.
 """
 

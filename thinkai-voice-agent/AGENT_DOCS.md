@@ -1,4 +1,4 @@
-# ThinkAI Voice Agent — Technical Documentation
+# Bégé Design Voice Agent — Technical Documentation
 
 > **Last updated:** 2026-03-09  
 > **Framework:** LiveKit Agents v1.4.4  
@@ -74,10 +74,10 @@ thinkai-voice-agent/
 | **TTS** | Cartesia | Model: `sonic-3`, speed: `1.0`, language: `hu` |
 | **VAD** | Silero | threshold: `0.6`, min_speech: `0.1s`, min_silence: `0.6s` |
 
-**Agent class:** `ThinkAIAgent(Agent)`
+**Agent class:** `BegeDesignAgent(Agent)`
 - `min_endpointing_delay`: 0.5s
 - `max_endpointing_delay`: 5.0s
-- Greeting on connect: "Szia! A ThinkAI asszisztense vagyok."
+- Greeting on connect: "Szia! A Bégé Dizájn asszisztense vagyok."
 
 **Cartesia TTS gotchas:**
 - `word_timestamps=False` — not supported for Hungarian
@@ -105,9 +105,9 @@ python server.py start  # production
 | `/api/emails` | GET | Returns all sent emails (newest first) |
 | `/api/health` | GET | Health check |
 
-**CORS origins:** `thinkai.hu`, `www.thinkai.hu`, `localhost:3000/8000`
+**CORS origins:** `bege.hu`, `www.bege.hu`, `localhost:3000/8000`
 
-**Token generation:** Creates unique room `thinkai-{hex}` + participant `user-{hex}` with `room_join` grant.
+**Token generation:** Creates unique room `bege-{hex}` + participant `user-{hex}` with `room_join` grant.
 
 **Startup:**
 ```bash

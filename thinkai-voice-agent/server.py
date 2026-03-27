@@ -115,7 +115,7 @@ def _is_phantom_transcript(text: str) -> bool:
 # AGENT CLASS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-class ThinkAIAgent(Agent):
+class BegeDesignAgent(Agent):
     def __init__(self):
         super().__init__(
             instructions=_get_system_prompt(),
@@ -240,7 +240,7 @@ async def entrypoint(ctx: JobContext):
     )
 
     await session.start(
-        agent=ThinkAIAgent(),
+        agent=BegeDesignAgent(),
         room=ctx.room,
         # Server-side noise cancellation — filters breathing, background noise,
         # keyboard sounds before they reach VAD (requires LiveKit Cloud)

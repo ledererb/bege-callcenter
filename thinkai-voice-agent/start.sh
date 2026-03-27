@@ -1,5 +1,5 @@
 #!/bin/bash
-# ThinkAI Voice Agent — Single-command launcher for Railway/production
+# Bégé Design Voice Agent — Single-command launcher for Railway/production
 # Starts both the LiveKit agent worker and the FastAPI web server.
 # Usage: ./start.sh         (production — "start" mode)
 #        ./start.sh dev     (dev mode with hot-reload)
@@ -11,7 +11,7 @@ cd "$SCRIPT_DIR"
 
 MODE="${1:-start}"
 
-echo "🚀 Starting ThinkAI Voice Agent..."
+echo "🚀 Starting Bégé Design Voice Agent..."
 echo "   Agent worker: python server.py $MODE"
 echo "   Web server:   python web_server.py (port ${PORT:-8000})"
 

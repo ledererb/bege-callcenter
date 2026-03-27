@@ -1,5 +1,5 @@
 """
-ThinkAI Voice Agent — Web Server
+Bégé Design Voice Agent — Web Server
 Serves the voice widget page, generates LiveKit room tokens,
 and provides API endpoints for calendar events and email logs.
 """
@@ -21,9 +21,9 @@ load_dotenv(THIS_DIR / ".env")
 CALENDAR_FILE = THIS_DIR / "calendar.json"
 EMAILS_FILE = THIS_DIR / "emails.json"
 
-app = FastAPI(title="ThinkAI Voice Agent")
+app = FastAPI(title="Bégé Design Voice Agent")
 
-# CORS — allow embedding on thinkai.hu and local dev
+# CORS — allow embedding on bege.hu and local dev
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

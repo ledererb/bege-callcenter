@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-One-time setup script: Create a Cartesia pronunciation dictionary for ThinkAI.
+One-time setup script: Create a Cartesia pronunciation dictionary for Bégé Design.
 Run this once, then add the CARTESIA_PRONUNCIATION_DICT_ID to your .env file.
 
 Usage:
@@ -29,11 +29,9 @@ HEADERS = {
 
 # Pronunciation rules: word → how TTS should say it
 RULES = [
-    {"alias": "ThinkAI", "phoneme": "Tink-éj-áj"},
-    {"alias": "thinkai", "phoneme": "tink-éj-áj"},
-    {"alias": "EAISY", "phoneme": "Ízí"},
-    {"alias": "thinkai.hu", "phoneme": "tink-éj-áj pont há ú"},
-    {"alias": "hello@thinkai.hu", "phoneme": "helló kukac tink-éj-áj pont há ú"},
+    {"alias": "Bégé Design", "phoneme": "Bégé Dizájn"},
+    {"alias": "bege.hu", "phoneme": "bégé pont há ú"},
+    {"alias": "info@bege.hu", "phoneme": "infó kukac bégé pont há ú"},
 ]
 
 
@@ -44,9 +42,9 @@ def main():
     resp.raise_for_status()
     existing = resp.json()
 
-    # Check if "thinkai-pronunciations" already exists
+    # Check if "bege-pronunciations" already exists
     for d in existing:
-        if d.get("name") == "thinkai-pronunciations":
+        if d.get("name") == "bege-pronunciations":
             print(f"Dictionary already exists: {d['id']}")
             print(f"Add to .env: CARTESIA_PRONUNCIATION_DICT_ID={d['id']}")
             return
@@ -54,7 +52,7 @@ def main():
     # Create new dictionary
     print("Creating pronunciation dictionary...")
     payload = {
-        "name": "thinkai-pronunciations",
+        "name": "bege-pronunciations",
         "rules": RULES,
     }
     resp = requests.post(

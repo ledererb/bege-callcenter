@@ -826,11 +826,9 @@
             text = text.replace(/\b(\w+)(\s+\1)+\b/gi, '$1');
             // Remove Hungarian filler words
             text = text.replace(/\b(hát|szóval|ugye|na|nahát|izé|izé-izé|öö|ö|ööö|ááá|hmm|hm|tehát)\b\s*/gi, '');
-            // Fix common STT misspellings of ThinkAI
-            text = text.replace(/\b(finkáj|fink éj áj|finkai|finkéjáj|szinkáj|szinkéjáj|szink éj áj|think áj|thinkáj|think éj áj|tinkáj|tinkéjáj|tink éj áj|tinkai|tink ai)\b/gi, 'ThinkAI');
-            // Fix common STT misspellings of names
-            text = text.replace(/\bleaderrer\b/gi, 'Lederer');
-            text = text.replace(/\bleader\b(?=\s+[A-ZÁÉÍÓÖŐÚÜŰ])/gi, 'Lederer');
+            // Fix common STT misspellings of Bégé Design
+            text = text.replace(/\b(bébé dizájn|végé dizájn|bé gé dizájn|bégé dizájn|bege design|bé gé design|végé design|bégé)\b/gi, 'Bégé Design');
+
             // Capitalize sentence start
             text = text.replace(/^\s*\w/, c => c.toUpperCase());
             // Collapse extra spaces
@@ -846,14 +844,14 @@
             text = text.replace(/\[LANG:(HU|EN)\]/gi, '').trim();
             if (!text) return;
             // Clean up phonetic spellings for display (agent text)
-            text = text.replace(/[Tt]ink-éj-áj/g, 'ThinkAI');
-            text = text.replace(/tink-éj-áj/g, 'ThinkAI');
+            text = text.replace(/[Bb]égé [Dd]izájn/g, 'Bégé Design');
+            text = text.replace(/bégé dizájn/g, 'Bégé Design');
             text = text.replace(/éj-áj/g, 'AI');
             text = text.replace(/Ízí|ízí/g, 'EAISY');
             text = text.replace(/szé-er-em/g, 'CRM');
             text = text.replace(/é-er-pé/g, 'ERP');
-            text = text.replace(/ThinkAI pont há ú/gi, 'thinkai.hu');
-            text = text.replace(/helló kukac ThinkAI pont há ú/gi, 'hello@thinkai.hu');
+            text = text.replace(/bégé pont há ú/gi, 'bege.hu');
+            text = text.replace(/infó kukac bégé pont há ú/gi, 'info@bege.hu');
             // Normalize user text (remove stutters, fillers, fix spelling)
             if (role === 'user') {
                 text = normalizeUserText(text);
